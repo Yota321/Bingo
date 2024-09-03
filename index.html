@@ -4,59 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .game-container {
-            text-align: center;
-        }
-        .bingo-header {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .bingo-letter {
-            font-size: 24px;
-            font-weight: bold;
-            color: #3498db;
-            width: 40px;
-        }
-        .bingo-board {
-            display: grid;
-            grid-template-columns: repeat(5, 60px);
-            gap: 5px;
-        }
-        .bingo-box {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: #3498db;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .bingo-box:hover {
-            background-color: #2980b9;
-        }
-        .bingo-box.marked {
-            background-color: #e74c3c;
-        }
-        .bingo-letter.marked {
-            color: #e74c3c;
-        }
-        /* Rest of the CSS remains the same */
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="game-container">
@@ -67,13 +15,24 @@
             <span class="bingo-letter">G</span>
             <span class="bingo-letter">O</span>
         </div>
-        <div class="bingo-board" id="bingoBoard"></div>
+        <div id="bingo-board">
+            <!-- Bingo Numbers will be dynamically inserted here -->
+        </div>
+        <div class="controls">
+            <button id="new-game">New Game</button>
+            <button id="toggle-hints">Toggle Hints</button>
+        </div>
+        <div id="scoreboard">
+            <p>Score: <span id="score">0</span></p>
+            <p>Time: <span id="timer">60</span> seconds</p>
+        </div>
+        <div id="leaderboard">
+            <h3>Leaderboard</h3>
+            <ul id="leaderboard-list">
+                <!-- Leaderboard entries will be dynamically inserted here -->
+            </ul>
+        </div>
     </div>
-
-    <!-- Rest of the HTML remains the same -->
-
-    <script>
-        // JavaScript remains the same
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
