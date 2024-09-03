@@ -8,31 +8,18 @@
 </head>
 <body>
     <div class="game-container">
-        <div class="bingo-header">
-            <span class="bingo-letter">B</span>
-            <span class="bingo-letter">I</span>
-            <span class="bingo-letter">N</span>
-            <span class="bingo-letter">G</span>
-            <span class="bingo-letter">O</span>
-        </div>
         <div id="bingo-board">
-            <!-- Bingo Numbers will be dynamically inserted here -->
+            <!-- Bingo board will be generated here -->
         </div>
-        <div class="controls">
-            <button id="new-game">New Game</button>
-            <button id="toggle-hints">Toggle Hints</button>
-        </div>
-        <div id="scoreboard">
-            <p>Score: <span id="score">0</span></p>
-            <p>Time: <span id="timer">60</span> seconds</p>
-        </div>
-        <div id="leaderboard">
-            <h3>Leaderboard</h3>
-            <ul id="leaderboard-list">
-                <!-- Leaderboard entries will be dynamically inserted here -->
-            </ul>
-        </div>
+        <div id="timer">Time: 0 seconds</div>
+        <div id="message"></div>
     </div>
+
+    <!-- Audio for clicking a number -->
+    <audio id="click-sound" src="click.mp3"></audio>
+    <!-- Audio for winning -->
+    <audio id="win-sound" src="win.mp3"></audio>
+
     <script src="script.js"></script>
 </body>
 </html>
