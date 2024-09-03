@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.bingo-container {
+    text-align: center;
+}
+
+.bingo-header {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.bingo-board {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bingo-box {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2196F3;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.bingo-box:hover {
+    background-color: #1976D2;
+}
