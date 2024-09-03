@@ -1,61 +1,68 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
     margin: 0;
+    padding: 0;
 }
 
-.bingo-container {
-    text-align: center;
+.game-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .bingo-header {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 2em;
-    font-weight: bold;
-    margin: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.bingo-header.clicked {
-    background-color: #FF5722; /* Change color when a letter is marked */
-}
-
-.bingo-board {
-    display: grid;
-    grid-template-columns: repeat(5, 100px);
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.bingo-box {
-    width: 100px;
-    height: 100px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: #2196F3;
-    color: white;
+    margin-bottom: 20px;
+}
+
+.bingo-letter {
+    flex: 1;
     font-size: 2em;
-    font-weight: bold;
-    border-radius: 5px;
+    color: #007bff;
+}
+
+#bingo-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+#bingo-board button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.bingo-box:hover {
-    background-color: #1976D2;
+#bingo-board button.marked {
+    background-color: #28a745;
 }
 
-.bingo-box.clicked {
-    background-color: #FF5722; /* Change color when clicked */
+.controls {
+    margin: 20px 0;
+}
+
+#scoreboard, #leaderboard {
+    margin-top: 20px;
+    text-align: left;
+}
+
+#leaderboard ul {
+    list-style: none;
+    padding: 0;
+}
+
+#leaderboard ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
 }
