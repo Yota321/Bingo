@@ -3,24 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bingo Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Interactive Bingo Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+        }
+        .game-container {
+            text-align: center;
+        }
+        .bingo-header {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        .bingo-letter {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            width: 40px;
+        }
+        .bingo-board {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 5px;
+        }
+        .bingo-box {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .blue {
+            background-color: #3498db;
+        }
+        .red {
+            background-color: #e74c3c;
+        }
+        .bingo-box:hover {
+            opacity: 0.8;
+        }
+        .bingo-box.marked {
+            background-color: #2ecc71;
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
-    <div class="bingo-container">
-        <!-- Bingo header with BINGO letters -->
-        <div class="bingo-header" id="letter-B">B</div>
-        <div class="bingo-header" id="letter-I">I</div>
-        <div class="bingo-header" id="letter-N">N</div>
-        <div class="bingo-header" id="letter-G">G</div>
-        <div class="bingo-header" id="letter-O">O</div>
-        
-        <!-- Bingo board for the 25 random numbers -->
-        <div class="bingo-board">
-            <!-- Bingo numbers will be inserted here by JavaScript -->
+    <div class="game-container">
+        <div class="bingo-header">
+            <span class="bingo-letter">B</span>
+            <span class="bingo-letter">I</span>
+            <span class="bingo-letter">N</span>
+            <span class="bingo-letter">G</span>
+            <span class="bingo-letter">O</span>
+        </div>
+        <div class="bingo-board" id="bingoBoard">
+            <!-- Bingo boxes will be added here dynamically -->
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const bingoNumbers = [
+            20, 9, 3, 21, 10,
+            15, 19, 5, 2, 18,
+            25, 4, 14, 22, 12,
+            11, 16, 23, 8, 6,
+            24, 13, 17, 7, 1
+        ];
+
+        const bingoBoard = document.getElementById('bingoBoard');
+
+        bingoNumbers.forEach((number, index) => {
+            const box = document.createElement('div');
+            box.className = `bingo-box ${index % 2 === 0 ? 'blue' : 'red'}`;
+            box.textContent = number;
+            box.addEventListener('click', () => toggleMark(box));
+            bingoBoard.appendChild(box);
+        });
+
+        function toggleMark(box) {
+            box.classList.toggle('marked');
+        }
+    </script>
 </body>
 </html>
