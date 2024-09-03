@@ -1,90 +1,95 @@
-let score = 0;
-let timeLeft = 60;
-let timerInterval;
-let hintsEnabled = false;
+document.addEventListener('DOMContentLoaded', () => {
+    const bingoBoard = document.getElementById('bingo-board');
+    const timerElement = document.getElementById('timer');
+    const messageElement = document.getElementById('message');
+    const clickSound = document.getElementById('click-sound');
+    const winSound = document.getElementById('win-sound');
+    let markedCells = 0;
+    let linesCompleted = 0;
+    let timer;
+    let secondsElapsed = 0;
 
-document.addEventListener("DOMContentLoaded", function() {
-    const bingoBoard = document.getElementById("bingo-board");
-    const newGameButton = document.getElementById("new-game");
-    const toggleHintsButton = document.getElementById("toggle-hints");
-    const scoreDisplay = document.getElementById("score");
-    const timerDisplay = document.getElementById("timer");
-
-    function createBingoBoard() {
-        bingoBoard.innerHTML = '';
-        let numbers = Array.from({length: 25}, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-        numbers.forEach(number => {
-            const button = document.createElement("button");
-            button.innerText = number;
-            button.onclick = () => markNumber(button);
-            bingoBoard.appendChild(button);
-        });
+    // Create the Bingo board
+    for (let i = 1; i <= 25; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('bingo-cell');
+        cell.textContent = i;
+        cell.addEventListener('click', markCell);
+        bingoBoard.appendChild(cell);
     }
 
-    function markNumber(button) {
-        if (!button.classList.contains("marked")) {
-            button.classList.add("marked");
+    // Timer that counts up from 0
+    timer = setInterval(() => {
+        secondsElapsed++;
+        timerElement.textContent = `Time: ${secondsElapsed} seconds`;
+    }, 1000);
+
+    // Function to mark a cell
+    function markCell(event) {
+        const cell = event.target;
+        if (!cell.classList.contains('marked')) {
+            cell.classList.add('marked');
+            markedCells++;
+            playClickSound();
+            triggerVibration(100);  // Vibrate for 100 milliseconds
             checkBingo();
         }
     }
 
-    function checkBingo() {
-        const buttons = Array.from(bingoBoard.children);
-        const lines = [
-            [0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24],
-            [0, 5, 10, 15, 20], [1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 19, 24],
-            [0, 6, 12, 18, 24], [4, 8, 12, 16, 20]
-        ];
-        let bingo = lines.some(line => line.every(i => buttons[i].classList.contains("marked")));
-        if (bingo) {
-            alert("Bingo!");
-            score++;
-            scoreDisplay.textContent = score;
-            resetTimer();
+    // Function to play click sound
+    function playClickSound() {
+        clickSound.play();
+    }
+
+    // Function to play win sound
+    function playWinSound() {
+        winSound.play();
+    }
+
+    // Function to trigger vibration
+    function triggerVibration(duration) {
+        if ("vibrate" in navigator) {
+            navigator.vibrate(duration);
         }
     }
 
-    function startTimer() {
-        timeLeft = 60;
-        timerDisplay.textContent = timeLeft;
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            timerDisplay.textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                alert("Time's up!");
-                createBingoBoard();
-                resetTimer();
-            }
-        }, 1000);
-    }
+    // Check for 5 lines completed
+    function checkBingo() {
+        const cells = document.querySelectorAll('.bingo-cell');
+        let rows = [0, 0, 0, 0, 0];
+        let cols = [0, 0, 0, 0, 0];
+        let diag1 = 0, diag2 = 0;
 
-    function resetTimer() {
-        clearInterval(timerInterval);
-        startTimer();
-    }
-
-    function toggleHints() {
-        hintsEnabled = !hintsEnabled;
-        toggleHintsButton.textContent = hintsEnabled ? "Hints On" : "Hints Off";
-        document.querySelectorAll("#bingo-board button").forEach(button => {
-            if (hintsEnabled && !button.classList.contains("marked")) {
-                button.style.backgroundColor = "#ffc107";
-            } else {
-                button.style.backgroundColor = "#007bff";
+        cells.forEach((cell, index) => {
+            if (cell.classList.contains('marked')) {
+                const row = Math.floor(index / 5);
+                const col = index % 5;
+                rows[row]++;
+                cols[col]++;
+                if (row === col) diag1++;
+                if (row + col === 4) diag2++;
             }
         });
+
+        // Count completed lines
+        linesCompleted = 0;
+        linesCompleted += rows.filter(row => row === 5).length;
+        linesCompleted += cols.filter(col => col === 5).length;
+        if (diag1 === 5) linesCompleted++;
+        if (diag2 === 5) linesCompleted++;
+
+        // If 5 lines are completed, show Bingo
+        if (linesCompleted >= 5) {
+            messageElement.textContent = `Bingo! You completed in ${secondsElapsed} seconds!`;
+            playWinSound();
+            triggerVibration([500, 200, 500, 200, 500]); // Continuous vibration pattern
+            clearInterval(timer);
+
+            // Display a dialog box to stop vibration
+            setTimeout(() => {
+                alert("Congratulations! You won! Click OK to stop vibration.");
+                navigator.vibrate(0); // Stop all vibrations
+            }, 1000);
+        }
     }
-
-    newGameButton.onclick = () => {
-        createBingoBoard();
-        resetTimer();
-        score = 0;
-        scoreDisplay.textContent = score;
-    };
-
-    toggleHintsButton.onclick = toggleHints;
-
-    createBingoBoard();
-    startTimer();
 });
